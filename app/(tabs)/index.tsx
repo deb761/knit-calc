@@ -1,70 +1,103 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from "react";
+import {
+  SafeAreaView,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  StatusBar,
+  Image,
+} from "react-native";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const DATA = [
+  {
+    id: 'sweater',
+    title: "Sweater",
+    thumb: require("@/assets/images/Sweater-thumb/sweater-thb.png"),
+  },
+  {
+    id: 'gloves',
+    title: "Gloves",
+    thumb: require("@/assets/images/Gloves-thumb.imageset/gloves-thb.png"),
+  },
+  {
+    id: "mittens",
+    title: "Mittens",
+    thumb: require("@/assets/images/Mittens-thumb.imageset/mittens-thb.png"),
+  },
+  {
+    id: 'socks',
+    title: "Socks",
+    thumb: require("@/assets/images/Socks-thumb.imageset/socks-thb.png"),
+  },
+  {
+    id: 'tam',
+    title: "Tam/Beret",
+    thumb: require("@/assets/images/Tam-thumb.imageset/tam thb.png"),
+  },
+  {
+    id: 'scarf',
+    title: "Scarf",
+    thumb: require("@/assets/images/Scarf-thumb/scarf-thb.png"),
+  },
+  {
+    id: 'vest',
+    title: "Vest",
+    thumb: require("@/assets/images/Vest-thumb.imageset/vest thb.png"),
+  },
+  {
+    id: 'blanket',
+    title: "Blanket",
+    thumb: require("@/assets/images/Blanket-thumb.imageset/blanket-thb.png"),
+  },
+  {
+    id: 'toque',
+    title: "Toque",
+    thumb: require("@/assets/images/Toque-thumb.imageset/toque thb.png"),
+  },
+];
 
-export default function HomeScreen() {
+const fallBack = require("@/assets/images/AppIcon-free.appiconset/Icon-41.png")
+type ItemProps = { title: string; thumb?: NodeRequire };
+
+const Item = ({ title, thumb }: ItemProps) => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.item}>
+      <Image source={thumb ?? fallBack} />
+      <Text style={styles.title}>{title}</Text>
+    </View>
   );
-}
+};
+
+const App = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={DATA}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <Item title={item.title} thumb={item.thumb} />
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  item: {
+    backgroundColor: "parchment",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  title: {
+    fontSize: 32,
   },
 });
+
+export default App;

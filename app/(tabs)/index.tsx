@@ -8,15 +8,16 @@ import {
   StatusBar,
   Image,
 } from "react-native";
+import { Link } from "expo-router";
 
 const DATA = [
   {
-    id: 'sweater',
+    id: "sweater",
     title: "Sweater",
     thumb: require("@/assets/images/Sweater-thumb/sweater-thb.png"),
   },
   {
-    id: 'gloves',
+    id: "gloves",
     title: "Gloves",
     thumb: require("@/assets/images/Gloves-thumb.imageset/gloves-thb.png"),
   },
@@ -26,46 +27,53 @@ const DATA = [
     thumb: require("@/assets/images/Mittens-thumb.imageset/mittens-thb.png"),
   },
   {
-    id: 'socks',
+    id: "socks",
     title: "Socks",
     thumb: require("@/assets/images/Socks-thumb.imageset/socks-thb.png"),
   },
   {
-    id: 'tam',
+    id: "tam",
     title: "Tam/Beret",
     thumb: require("@/assets/images/Tam-thumb.imageset/tam thb.png"),
   },
   {
-    id: 'scarf',
+    id: "scarf",
     title: "Scarf",
     thumb: require("@/assets/images/Scarf-thumb/scarf-thb.png"),
   },
   {
-    id: 'vest',
+    id: "vest",
     title: "Vest",
     thumb: require("@/assets/images/Vest-thumb.imageset/vest thb.png"),
   },
   {
-    id: 'blanket',
+    id: "blanket",
     title: "Blanket",
     thumb: require("@/assets/images/Blanket-thumb.imageset/blanket-thb.png"),
   },
   {
-    id: 'toque',
+    id: "toque",
     title: "Toque",
     thumb: require("@/assets/images/Toque-thumb.imageset/toque thb.png"),
   },
 ];
 
-const fallBack = require("@/assets/images/AppIcon-free.appiconset/Icon-41.png")
-type ItemProps = { title: string; thumb?: NodeRequire };
+const fallBack = require("@/assets/images/AppIcon-free.appiconset/Icon-41.png");
+type ItemProps = { id: string; title: string; thumb?: NodeRequire };
 
-const Item = ({ title, thumb }: ItemProps) => {
+const Item = ({ id, title, thumb }: ItemProps) => {
   return (
-    <View style={styles.item}>
-      <Image source={thumb ?? fallBack} />
-      <Text style={styles.title}>{title}</Text>
-    </View>
+    <Link
+      href={{
+        pathname: "/projects/[name]",
+        params: { id, title },
+      }}
+    >
+      <View style={styles.item}>
+        <Image source={thumb ?? fallBack} />
+        <Text style={styles.title}>{title}</Text>
+      </View>
+    </Link>
   );
 };
 
@@ -76,7 +84,7 @@ const App = () => {
         data={DATA}
         numColumns={2}
         renderItem={({ item }) => (
-          <Item title={item.title} thumb={item.thumb} />
+          <Item id={item.id} title={item.title} thumb={item.thumb} />
         )}
         keyExtractor={(item) => item.id}
       />
